@@ -14,7 +14,7 @@ public class Person {
 	private String mail;
 	private String datenaissance;
 	private String profil;
-	//private List<Person> friends;
+	private List<Person> friends;
 	private List<Home> residences;
 
 
@@ -26,7 +26,7 @@ public class Person {
 		this.mail = mail;
 		this.datenaissance = datenaissance;
 		this.profil = profil;
-		//this.setFriends(null);
+		this.setFriends(null);
 		this.setResidences(null);;
 	}
 
@@ -85,8 +85,8 @@ public class Person {
 		this.residences = residences;
 	}
 	
-	/*
-	@ManyToMany(mappedBy="Person", cascade = CascadeType.PERSIST)
+	
+	@ManyToMany(mappedBy="friends", cascade = CascadeType.PERSIST)
 	public List<Person> getFriends() {
 		return friends;
 	}
@@ -94,6 +94,6 @@ public class Person {
 	public void setFriends(List<Person> friends) {
 		this.friends = friends;
 	}
-	*/
+	
 	
 }

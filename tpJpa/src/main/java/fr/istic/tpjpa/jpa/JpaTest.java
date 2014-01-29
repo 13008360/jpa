@@ -26,11 +26,24 @@ public class JpaTest {
 
 		// TODO create entity
 
-		Home home = new Home("9 rue des Bolosses", 23532, "192.168.1.1", null);
-		Person personne = new Person("Maboule", "Docteur", "Masculin", "dr.maboule@cliniquedelasavoie.fr", "26 janvier 1992", "Le Maboule");		
-		manager.persist(home);
-		manager.persist(personne);
+		Person personne = new Person("Le Verge", "Pauline", "Inconnu", "pops@fr", "26 janvier 1992", "Pop's");		
+		Person personne2 = new Person("Bechepois", "Corinne", "Inconnu", "coco@fr", "décembre 1992", "Coco");		
+
+		Home home = new Home("9 rue des Bolosses", 23532, "192.168.1.1", personne);
+		Home home2 = new Home("10 rue des Bolosses", 23532, "192.168.1.1", personne2);
+		Home home3 = new Home("8 rue des Bolosses", 23532, "192.168.1.1", personne);
 		
+		
+		personne.setFriends(personne2);
+
+		
+		
+		manager.persist(home);
+		manager.persist(home2);
+		manager.persist(home3);
+		manager.persist(personne);
+		manager.persist(personne2);
+	
 		// TODO persist entity
 
 		tx.commit();
