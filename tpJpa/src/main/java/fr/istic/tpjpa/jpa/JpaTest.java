@@ -20,17 +20,23 @@ public class JpaTest {
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("example");
 		EntityManager manager = factory.createEntityManager();
-		JpaTest test = new JpaTest(manager);
 
 		EntityTransaction tx = manager.getTransaction();
 		tx.begin();
 
 		// TODO create entity
 
+		Home home = new Home("9 rue des Bolosses", 23532, "192.168.1.1", null);
+		Person personne = new Person("Maboule", "Docteur", "Masculin", "dr.maboule@cliniquedelasavoie.fr", "26 janvier 1992", "Le Maboule");		
+		manager.persist(home);
+		manager.persist(personne);
+		
 		// TODO persist entity
 
 		tx.commit();
 
+		
+		manager.close();
 		// TODO run request
 
 		System.out.println(".. done");
