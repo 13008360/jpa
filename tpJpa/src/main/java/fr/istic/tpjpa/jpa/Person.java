@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Table(name="Personne")
 public class Person {
 
 	private Long id;
@@ -17,7 +18,9 @@ public class Person {
 	private List<Person> friends;
 	private List<Home> residences;
 
-
+	public Person(){
+			super();
+	}
 
 	public Person( String nom, String prenom, String genre, String mail, String datenaissance, String profil) {
 		this.nom = nom;
@@ -93,6 +96,14 @@ public class Person {
 
 	public void setFriends(List<Person> friends) {
 		this.friends = friends;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Person [id=" + id + ", nom=" + nom + ", prenom=" + prenom
+				+ ", genre=" + genre + ", mail=" + mail + ", datenaissance="
+				+ datenaissance + ", profil=" + profil + "]";
 	}
 	
 	

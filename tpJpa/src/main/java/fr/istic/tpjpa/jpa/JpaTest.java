@@ -1,5 +1,8 @@
 package fr.istic.tpjpa.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -9,50 +12,106 @@ public class JpaTest {
 
 	private EntityManager manager;
 
-	public JpaTest(EntityManager manager) {
-		this.manager = manager;
-	}
+    public JpaTest(EntityManager manager) {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("example");
-		EntityManager manager = factory.createEntityManager();
+        this.manager = manager;
 
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin();
+    }
 
-		// TODO create entity
+    /**
 
-		Person personne = new Person("Le Verge", "Pauline", "Inconnu", "pops@fr", "26 janvier 1992", "Pop's");		
-		Person personne2 = new Person("Bechepois", "Corinne", "Inconnu", "coco@fr", "décembre 1992", "Coco");		
+     * @param args
 
-		Home home = new Home("9 rue des Bolosses", 23532, "192.168.1.1", personne);
-		Home home2 = new Home("10 rue des Bolosses", 23532, "192.168.1.1", personne2);
-		Home home3 = new Home("8 rue des Bolosses", 23532, "192.168.1.1", personne);
-		
-		
-		personne.setFriends(personne2);
+     */
 
-		
-		
-		manager.persist(home);
-		manager.persist(home2);
-		manager.persist(home3);
-		manager.persist(personne);
-		manager.persist(personne2);
-	
-		// TODO persist entity
+    public static void main(String[] args) {
 
-		tx.commit();
+        EntityManagerFactory factory =   
 
-		
-		manager.close();
-		// TODO run request
+             Persistence.createEntityManagerFactory("example");
 
-		System.out.println(".. done");
-	}
+        EntityManager manager = factory.createEntityManager();
+
+        JpaTest test = new JpaTest(manager);
+
+        EntityTransaction tx = manager.getTransaction();
+
+        tx.begin();
+
+        try {
+
+            test.createPersons();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        tx.commit();
+
+        test.listPersons();
+
+           
+
+       manager.close();
+
+        System.out.println(".. done");
+
+    }
+
+    private void createPersons() {
+
+        int numOfPersons = manager.createQuery("Select a From Person a", Person.class).getResultList().size();
+
+        if (numOfPersons == 0) {
+
+            Home maison = new Home();
+            maison.setAdresse("35 rue de nul part");
+            maison.setIP("192.168.1.1");
+            manager.persist(maison);
+            
+            Person per1 = new Person();
+            per1.setDatenaissance("15/01/1988");
+            per1.setPrenom("Jean");
+            per1.setNom("Reno");
+
+            Person per2 = new Person();
+            per2.setDatenaissance("25/04/1975");
+            per2.setPrenom("Martin");
+            per2.setNom("Mystere");
+            
+            List<Home> maisons = new ArrayList<Home>();
+            maisons.add(maison);
+            
+            per1.setResidences(maisons);
+            
+            List<Person> amis = new ArrayList<Person>();
+            amis.add(per1);
+            per2.setFriends(amis);
+            
+            manager.persist(per1);
+
+            manager.persist(per2);
+
+        }
+
+    }
+
+    private void listPersons() {
+
+        List<Person> resultList = manager.createQuery("Select a From Person a", Person.class).getResultList();
+
+        System.out.println("num of persons:" + resultList.size());
+
+        for (Person next : resultList) {
+
+            System.out.println("next person: " + next);
+
+        }
+
+    }
 
 }
+
+

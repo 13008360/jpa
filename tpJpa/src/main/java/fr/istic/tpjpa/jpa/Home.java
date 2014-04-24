@@ -1,8 +1,12 @@
 package fr.istic.tpjpa.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name="Maison")
 public class Home {
 
 	private Long id;
@@ -10,7 +14,17 @@ public class Home {
 	private int superficie;
 	private String IP;
 	private Person proprietaire;
-	
+
+	private List<ElectronicDevice> equipements = new ArrayList<ElectronicDevice>();
+	private List<Heater> chauffages = new ArrayList<Heater>();
+
+
+
+
+	public Home(){
+		super();
+	}
+
 
 	public Home( String adresse, int superficie, String iP, Person proprietaire) {
 		this.adresse = adresse;
@@ -55,7 +69,31 @@ public class Home {
 		this.proprietaire = proprietaire;
 	}
 
-	
-	
-	
+	@OneToMany(mappedBy="equipements",cascade=CascadeType.PERSIST)
+	public List<ElectronicDevice> getEquipements() {
+		return equipements;
+	}
+
+
+	public void setEquipements(List<ElectronicDevice> equipements) {
+		this.equipements = equipements;
+	}
+
+	@OneToMany(mappedBy="chauffages",cascade=CascadeType.PERSIST)
+	public List<Heater> getChauffages() {
+		return chauffages;
+	}
+
+
+	public void setChauffages(List<Heater> chauffages) {
+		this.chauffages = chauffages;
+	}
+
+	@Override
+	public String toString() {
+		return "Home [id=" + id + ", adresse=" + adresse + ", superficie="
+				+ superficie + ", IP=" + IP + "]";
+	}
+
+
 }
